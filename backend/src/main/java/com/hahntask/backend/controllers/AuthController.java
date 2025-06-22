@@ -6,6 +6,7 @@ import com.hahntask.backend.domain.dtos.SignupRequestDto;
 import com.hahntask.backend.domain.dtos.UserDto;
 import com.hahntask.backend.mappers.UserMapper;
 import com.hahntask.backend.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthenticationResponseDto> signup(@RequestBody SignupRequestDto body) {
+    public ResponseEntity<AuthenticationResponseDto> signup(@RequestBody @Valid SignupRequestDto body) {
         return ResponseEntity.ok(authService.signup(body));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthenticationResponseDto> signin(@RequestBody SigninRequestDto body) {
+    public ResponseEntity<AuthenticationResponseDto> signin(@RequestBody @Valid SigninRequestDto body) {
         return ResponseEntity.ok(authService.signin(body));
     }
 
