@@ -17,6 +17,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    final String[] PUBLIC_URLS = {
+            "/api/auth/signin",
+            "/api/auth/signup"
+    };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -26,9 +30,7 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(
-                                        "/"
-                                )
+                        req.requestMatchers(PUBLIC_URLS)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
