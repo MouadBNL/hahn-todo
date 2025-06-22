@@ -3,6 +3,8 @@ package com.hahntask.backend.controllers;
 import com.hahntask.backend.domain.dtos.AuthenticationResponseDto;
 import com.hahntask.backend.domain.dtos.SigninRequestDto;
 import com.hahntask.backend.domain.dtos.SignupRequestDto;
+import com.hahntask.backend.domain.dtos.UserDto;
+import com.hahntask.backend.mappers.UserMapper;
 import com.hahntask.backend.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,8 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<String> getAuthUser() {
-        return ResponseEntity.ok("Hello from /me endpoint");
+    public ResponseEntity<UserDto> getAuthUser() {
+        var user = authService.getAuthenticatedUser();
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 }
