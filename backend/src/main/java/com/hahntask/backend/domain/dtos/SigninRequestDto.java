@@ -17,6 +17,5 @@ public class SigninRequestDto {
     private String email;
 
     @NotBlank
-    @Email
     private String password;
 }
