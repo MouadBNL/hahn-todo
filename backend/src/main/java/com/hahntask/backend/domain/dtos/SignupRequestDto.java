@@ -22,9 +22,6 @@ public class SignupRequestDto {
     private String email;
 
     @NotBlank
-    private String username;
-
-    @NotBlank
     @Size(min = 6)
     private String password;
 }

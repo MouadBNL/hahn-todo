@@ -19,7 +19,7 @@ export default function SignIn() {
 	const form = useForm<SignInRequest>({
 		resolver: zodResolver(SignInSchema),
 		defaultValues: {
-			username: "",
+			email: "",
 			password: "",
 		},
 	});
@@ -47,14 +47,14 @@ export default function SignIn() {
 					<form onSubmit={form.handleSubmit((data) => signIn(data))}>
 						<CardContent className="space-y-4">
 
-							<FormField control={form.control} name="username" render={({ field }) => (
+							<FormField control={form.control} name="email" render={({ field }) => (
 								<FormItem>
-									<FormLabel htmlFor="username">Username</FormLabel>
+									<FormLabel htmlFor="email">Email</FormLabel>
 									<FormControl>
 										<Input
-											id="username"
-											type="text"
-											placeholder="Enter your username"
+											id="email"
+											type="email"
+											placeholder="Enter your email"
 											{...field}
 											required
 										/>

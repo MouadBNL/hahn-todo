@@ -30,8 +30,6 @@ public class User implements UserDetails {
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "username", unique = true, nullable = false)
-    private String username;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -69,6 +67,6 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 }

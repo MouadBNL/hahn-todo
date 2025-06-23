@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationResponseDto signup(SignupRequestDto request) {
-        var existingUsername = userRepository.findByUsername(request.getUsername());
+        var existingUsername = userRepository.findByEmail(request.getEmail());
         if (existingUsername.isPresent()) {
             throw new ValidationException("Username already exists");
         }
@@ -40,7 +40,6 @@ public class AuthServiceImpl implements AuthService {
 
         var user = User.builder()
                 .fullName(request.getFullName())
-                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
@@ -54,12 +53,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationResponseDto signin(SigninRequestDto request) {
-        var user =userRepository.findByUsername(request.getUsername()).orElseThrow(
+        var user =userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new BadCredentialsException("Invalid username or password")
         );
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );

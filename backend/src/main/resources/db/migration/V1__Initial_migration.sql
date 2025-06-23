@@ -24,7 +24,6 @@ CREATE TABLE users
 (
     id         UUID         NOT NULL,
     full_name  VARCHAR(255),
-    username   VARCHAR(255) NOT NULL,
     email      VARCHAR(255) NOT NULL,
     password   VARCHAR(255),
     created_at TIMESTAMP WITHOUT TIME ZONE,
@@ -34,9 +33,6 @@ CREATE TABLE users
 
 ALTER TABLE users
     ADD CONSTRAINT uc_users_email UNIQUE (email);
-
-ALTER TABLE users
-    ADD CONSTRAINT uc_users_username UNIQUE (username);
 
 ALTER TABLE projects
     ADD CONSTRAINT FK_PROJECTS_ON_OWNER FOREIGN KEY (owner_id) REFERENCES users (id);

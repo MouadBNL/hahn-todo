@@ -22,7 +22,6 @@ export default function SignUp() {
 		defaultValues: {
 			fullName: "",
 			email: "",
-			username: "",
 			password: "",
 		},
 	});
@@ -58,22 +57,6 @@ export default function SignUp() {
 											id="fullName"
 											type="text"
 											placeholder="Enter your full name"
-											{...field}
-											required
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)} />
-
-							<FormField control={form.control} name="username" render={({ field }) => (
-								<FormItem>
-									<FormLabel htmlFor="username">Username</FormLabel>
-									<FormControl>
-										<Input
-											id="username"
-											type="text"
-											placeholder="Enter your username"
 											{...field}
 											required
 										/>
