@@ -87,7 +87,7 @@ export default function TaskForm({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea {...field} placeholder="Enter your task description" />
+                  <Textarea {...field} placeholder="Enter your task description" value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

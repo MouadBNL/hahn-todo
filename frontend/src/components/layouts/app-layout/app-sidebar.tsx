@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 import { AppSidebarHeader } from "./header"
 import { EllipsisIcon, InboxIcon, PlusIcon } from "lucide-react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import ProjectForm from "@/components/blocks/ProjectForm"
@@ -21,10 +21,12 @@ import type { ProjectDto } from "@/domaine/dtos"
 import { projectService } from "@/services"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { AuthUtils } from "@/lib/auth"
 
 export function AppSidebar() {
 
 	const queryClient = useQueryClient()
+	const navigate = useNavigate()
 	const { data: projects } = useQuery({
 		queryKey: ["projects"],
 		queryFn: projectService.index,
@@ -43,6 +45,11 @@ export function AppSidebar() {
 			queryClient.invalidateQueries({ queryKey: ["projects"] })
 		},
 	});
+
+	const onLogout = () => {
+		AuthUtils.removeToken()
+		navigate("/auth/signin")
+	}
 
 	return (
 		<Sidebar>
@@ -101,7 +108,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 			</SidebarContent>
-			<SidebarFooter />
+			<SidebarFooter>
+				<div className="flex items-center gap-2 mb-4">
+					<Button onClick={onLogout} className="text-center w-full">
+						Logout
+					</Button>
+				</div>
+			</SidebarFooter>
 		</Sidebar>
 	)
 }
