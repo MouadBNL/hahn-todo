@@ -3,29 +3,33 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { authService } from "@/services"
+import { SignInSchema, type SignInRequest } from "@/domaine/dtos"
+import { useMutation } from "@tanstack/react-query"
+import { Loader2Icon } from "lucide-react"
+import { AuthUtils } from "@/lib/auth"
+
 export default function SignIn() {
 
-	const schema = z.object({
-		username: z.string().min(3),
-		password: z.string().min(8),
-	})
-
-	const form = useForm<z.infer<typeof schema>>({
-		resolver: zodResolver(schema),
+	const form = useForm<SignInRequest>({
+		resolver: zodResolver(SignInSchema),
 		defaultValues: {
 			username: "",
 			password: "",
 		},
 	});
 
-	const onSubmit = async (data: z.infer<typeof schema>) => {
-		const response = await authService.signIn(data)
-		console.log(response)
-	}
+	const { mutate: signIn, isPending } = useMutation({
+		mutationFn: authService.signIn,
+		onSuccess: (data) => {
+			AuthUtils.saveToken(data.token)
+		},
+		onError: (error) => {
+			console.log(error)
+		},
+	});
 
 	return (
 		<div className="flex min-h-screen items-center justify-center">
@@ -35,7 +39,7 @@ export default function SignIn() {
 					<CardDescription>Enter your details below to sign in to your account</CardDescription>
 				</CardHeader>
 				<Form {...form}>	
-					<form onSubmit={form.handleSubmit(onSubmit)}>
+					<form onSubmit={form.handleSubmit((data) => signIn(data))}>
 						<CardContent className="space-y-4">
 
 							<FormField control={form.control} name="username" render={({ field }) => (
@@ -73,7 +77,8 @@ export default function SignIn() {
 						</CardContent>
 
 						<CardFooter className="flex flex-col space-y-4 mt-4">
-							<Button type="submit" className="w-full">
+							<Button type="submit" className="w-full" disabled={isPending}>
+								{isPending ? <Loader2Icon className="w-4 h-4 mr-2" /> : null}
 								Sign In
 							</Button>
 							<p className="text-sm text-gray-500">

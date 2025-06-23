@@ -3,22 +3,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { authService } from "@/services"
+import { SignUpSchema, type SignUpRequest } from "@/domaine/dtos"
+import { useMutation } from "@tanstack/react-query"
+import { Loader2Icon } from "lucide-react"
+import { AuthUtils } from "@/lib/auth"
 
 export default function SignUp() {
 
-	const schema = z.object({
-		fullName: z.string().min(3),
-		email: z.string().email(),
-		username: z.string().min(3),
-		password: z.string().min(8),
-	})
-
-	const form = useForm<z.infer<typeof schema>>({
-		resolver: zodResolver(schema),
+	const form = useForm<SignUpRequest>({
+		resolver: zodResolver(SignUpSchema),
 		defaultValues: {
 			fullName: "",
 			email: "",
@@ -27,10 +23,15 @@ export default function SignUp() {
 		},
 	});
 
-	const onSubmit = async (data: z.infer<typeof schema>) => {
-		const response = await authService.signUp(data)
-		console.log(response)
-	}
+	const { mutate: signUp, isPending } = useMutation({
+		mutationFn: authService.signUp,
+		onSuccess: (data) => {
+			AuthUtils.saveToken(data.token)
+		},
+		onError: (error) => {
+			console.log(error)
+		},
+	});
 
 	return (
 		<div className="flex min-h-screen items-center justify-center">
@@ -40,7 +41,7 @@ export default function SignUp() {
 					<CardDescription>Enter your details below to create your account</CardDescription>
 				</CardHeader>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)}>
+					<form onSubmit={form.handleSubmit((data) => signUp(data))}>
 						<CardContent className="space-y-4">
 
 							<FormField control={form.control} name="fullName" render={({ field }) => (
@@ -110,7 +111,8 @@ export default function SignUp() {
 						</CardContent>
 
 						<CardFooter className="flex flex-col space-y-4 mt-4">
-							<Button type="submit" className="w-full">
+							<Button type="submit" className="w-full" disabled={isPending}>
+								{isPending ? <Loader2Icon className="w-4 h-4 mr-2" /> : null}
 								Sign Up
 							</Button>
 							<p className="text-sm text-gray-500">
