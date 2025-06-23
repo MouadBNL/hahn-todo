@@ -1,4 +1,3 @@
-"use client";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -22,6 +21,7 @@ export default function TaskForm({
       description: null,
       priority: "NONE",
       completedAt: null,
+      projectId: null,
       ...task,
     },
   });

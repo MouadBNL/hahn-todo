@@ -9,6 +9,7 @@ import { AuthProvider } from "./components/auth"
 import { AppLayout } from "./components/layouts/app-layout"
 import Dashboard from "./pages/app/dashboard"
 import { InboxPage } from "./pages/app/inbox"
+import ProjectShowPage from "./pages/app/project-show"
 
 const queryClient = new QueryClient()
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/app" element={<AppLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="inbox" element={<InboxPage />} />
+              <Route path="projects/:id" element={<ProjectShowPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

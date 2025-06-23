@@ -16,5 +16,5 @@ export const authService = {
 	me: async () => {
 		const response = await http.get<AuthUser>("/auth/me")
 		return response.data
-	}
+	}						
 }
