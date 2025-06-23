@@ -31,13 +31,13 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskDto> create(@RequestBody @Valid TaskDto taskDto) {
-        var task = taskService.create(TaskMapper.fromDto(taskDto));
+        var task = taskService.create(TaskMapper.fromDto(taskDto), taskDto.getProjectId());
         return ResponseEntity.ok(TaskMapper.toDto(task));
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<TaskDto> getById(@PathVariable UUID id, @RequestBody @Valid TaskDto taskDto) {
-        var task = taskService.update(id, TaskMapper.fromDto(taskDto));
+        var task = taskService.update(id, TaskMapper.fromDto(taskDto), taskDto.getProjectId());
         return ResponseEntity.ok(TaskMapper.toDto(task));
     }
 

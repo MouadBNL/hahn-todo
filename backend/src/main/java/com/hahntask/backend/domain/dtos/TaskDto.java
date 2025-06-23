@@ -15,6 +15,9 @@ import java.util.UUID;
 public class TaskDto {
     private UUID id;
 
+    @Nullable
+    private UUID projectId;
+
     @NotBlank(message = "Task title is required")
     private String title;
 

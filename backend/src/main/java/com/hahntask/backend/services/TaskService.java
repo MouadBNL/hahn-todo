@@ -10,9 +10,9 @@ public interface TaskService {
 
     Task find(UUID uuid);
 
-    Task create(Task task);
+    Task create(Task task, UUID projectId);
 
-    Task update(UUID uuid, Task task);
+    Task update(UUID uuid, Task task, UUID projectId);
 
     void delete(UUID uuid);
 }
