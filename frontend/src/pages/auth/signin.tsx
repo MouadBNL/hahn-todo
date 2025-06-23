@@ -2,16 +2,19 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { authService } from "@/services"
 import { SignInSchema, type SignInRequest } from "@/domaine/dtos"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
 import { AuthUtils } from "@/lib/auth"
 
 export default function SignIn() {
+
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const form = useForm<SignInRequest>({
 		resolver: zodResolver(SignInSchema),
@@ -25,6 +28,8 @@ export default function SignIn() {
 		mutationFn: authService.signIn,
 		onSuccess: (data) => {
 			AuthUtils.saveToken(data.token)
+			queryClient.invalidateQueries({ queryKey: ["auth"] })
+			navigate("/app")
 		},
 		onError: (error) => {
 			console.log(error)

@@ -7,11 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { authService } from "@/services"
 import { SignUpSchema, type SignUpRequest } from "@/domaine/dtos"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2Icon } from "lucide-react"
 import { AuthUtils } from "@/lib/auth"
+import { useNavigate } from "react-router"
 
 export default function SignUp() {
+
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const form = useForm<SignUpRequest>({
 		resolver: zodResolver(SignUpSchema),
@@ -26,7 +30,9 @@ export default function SignUp() {
 	const { mutate: signUp, isPending } = useMutation({
 		mutationFn: authService.signUp,
 		onSuccess: (data) => {
-			AuthUtils.saveToken(data.token)
+			AuthUtils.saveToken(data.token);
+			queryClient.invalidateQueries({ queryKey: ["auth"] });
+			navigate("/app");
 		},
 		onError: (error) => {
 			console.log(error)
