@@ -8,6 +8,7 @@ import { QueryClient } from "@tanstack/react-query"
 import { AuthProvider } from "./components/auth"
 import { AppLayout } from "./components/layouts/app-layout"
 import Dashboard from "./pages/app/dashboard"
+import { InboxPage } from "./pages/app/inbox"
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/auth/signin" element={<SignIn />} />
             <Route path="/app" element={<AppLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="inbox" element={<InboxPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

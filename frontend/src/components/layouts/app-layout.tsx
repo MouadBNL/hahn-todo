@@ -1,5 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuth } from "../auth";
+import { SidebarProvider } from "../ui/sidebar";
+import { AppSidebar } from "./app-layout/app-sidebar";
 
 
 export function AppLayout() {
@@ -15,8 +17,12 @@ export function AppLayout() {
 
 	return (
 		<div>
-			<pre>{JSON.stringify(auth.user, null, 2)}</pre>
-			<Outlet />
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </SidebarProvider>
 		</div>
 	)
 }

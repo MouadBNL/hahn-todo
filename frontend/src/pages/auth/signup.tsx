@@ -21,7 +21,7 @@ export default function SignUp() {
 		resolver: zodResolver(SignUpSchema),
 		defaultValues: {
 			fullName: "",
-			email: "",
+			email: "",	
 			username: "",
 			password: "",
 		},
