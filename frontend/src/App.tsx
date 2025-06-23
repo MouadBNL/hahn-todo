@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import { Button } from './components/ui/button'
-
+import { BrowserRouter, Route, Routes } from "react-router"
+import Home from "./pages/home"
+import About from "./pages/about"
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <h1>Hahn: Todo app</h1>
-      <Button onClick={() => setCount(count + 1)}>Click me {count}</Button>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
