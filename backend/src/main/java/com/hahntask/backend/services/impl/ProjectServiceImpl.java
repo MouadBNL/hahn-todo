@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (!auth.getId().equals(project.getOwner().getId())) {
             return List.of();
         }
-        return taskRepository.findByOwnerIdAndProjectId(auth.getId(), projectId);
+        return taskRepository.findByOwnerIdAndProjectIdOrderByCreatedAtAsc(auth.getId(), projectId);
     }
 
     @Override

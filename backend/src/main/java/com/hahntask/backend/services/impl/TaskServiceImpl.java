@@ -24,9 +24,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> inbox() {
         var auth = authService.getAuthenticatedUser();
-        return taskRepository.findByOwnerIdAndProjectId(auth.getId(), null);
+        return taskRepository.findByOwnerIdAndProjectIdOrderByCreatedAtAsc(auth.getId(), null);
     }
-
+        
     @Override
     public Task find(UUID uuid) {
         var task = taskRepository.findById(uuid).orElseThrow();
