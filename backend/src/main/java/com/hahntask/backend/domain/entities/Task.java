@@ -21,6 +21,14 @@ public class Task {
     @Column(unique = true, nullable = false, updatable = false)
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = true)
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User ownerId;
+
     @Column(name = "title", nullable = false)
     private String title;
 

@@ -45,6 +45,12 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Task> tasks;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
