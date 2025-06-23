@@ -19,7 +19,7 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<TaskDto>> index() {
-        List<TaskDto> tasks = taskService.getAll().stream().map(TaskMapper::toDto).toList();
+        List<TaskDto> tasks = taskService.inbox().stream().map(TaskMapper::toDto).toList();
         return ResponseEntity.ok(tasks);
     }
 
@@ -35,7 +35,7 @@ public class TaskController {
         return ResponseEntity.ok(TaskMapper.toDto(task));
     }
 
-    @PatchMapping(path = "/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<TaskDto> getById(@PathVariable UUID id, @RequestBody @Valid TaskDto taskDto) {
         var task = taskService.update(id, TaskMapper.fromDto(taskDto));
         return ResponseEntity.ok(TaskMapper.toDto(task));
