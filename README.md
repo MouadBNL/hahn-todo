@@ -1,6 +1,6 @@
 # Hahn Todo App
 
-![Hahn Todo Landing Page](./assets/hahn-todo-landing.png)
+![Hahn Todo Landing Page](https://raw.githubusercontent.com/MouadBNL/hahn-todo/refs/heads/main/assets/hahn-landing-page.png)
 
 A modern todo application built with Spring Boot backend and Vite + React frontend.
 
@@ -23,7 +23,7 @@ There are two ways to run the Hahn Todo application:
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:8080
 
-### Option 2: Manual Setup
+### Option 2: Manual Setup  
 
 #### Backend Setup
 1. Navigate to the backend directory:
